@@ -44,7 +44,7 @@ crypotocurrencies = (
 
 selected_stock = st.selectbox('Select dataset for prediction', crypotocurrencies)
 
-n_years = st.slider('Hours of prediction:', 1, 24)
+n_years = st.slider('Hours of prediction:', 100, 1000)
 period = n_years
 
 
