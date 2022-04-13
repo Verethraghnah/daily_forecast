@@ -4,22 +4,22 @@ from datetime import date
 import requests
 import numpy as np
 import yfinance as yf
-from fbprophet import Prophet
-from fbprophet.plot import plot_plotly, plot_components_plotly
+from prophet import Prophet
+from prophet.plot import plot_plotly, plot_components_plotly
 from plotly import graph_objs as go
 import streamlit as st
 import pandas as pd
 import numpy as np
-from fbprophet import Prophet
-from fbprophet.diagnostics import performance_metrics
-from fbprophet.diagnostics import cross_validation
-from fbprophet.plot import plot_cross_validation_metric
+from prophet import Prophet
+from prophet.diagnostics import performance_metrics
+from prophet.diagnostics import cross_validation
+from prophet.plot import plot_cross_validation_metric
 import base64
-from fbprophet.plot import add_changepoints_to_plot
-from fbprophet.plot import plot_plotly
+from prophet.plot import add_changepoints_to_plot
+from prophet.plot import plot_plotly
 import plotly.offline as py
-from fbprophet.plot import add_changepoints_to_plot
-from fbprophet.plot import plot_components_plotly
+from prophet.plot import add_changepoints_to_plot
+from prophet.plot import plot_components_plotly
 from PIL import Image
 import datetime as dt
 import plotly.express as px
@@ -27,16 +27,16 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import neuralprophet
 from PIL import Image
-from fbprophet import Prophet
-from fbprophet.diagnostics import performance_metrics
-from fbprophet.diagnostics import cross_validation
-from fbprophet.plot import plot_cross_validation_metric
+from prophet import Prophet
+from prophet.diagnostics import performance_metrics
+from prophet.diagnostics import cross_validation
+from prophet.plot import plot_cross_validation_metric
 import base64
-from fbprophet.plot import add_changepoints_to_plot
-from fbprophet.plot import plot_plotly
+from prophet.plot import add_changepoints_to_plot
+from prophet.plot import plot_plotly
 import plotly.offline as py
-from fbprophet.plot import add_changepoints_to_plot
-from fbprophet.plot import plot_components_plotly
+from prophet.plot import add_changepoints_to_plot
+from prophet.plot import plot_components_plotly
 
 image = Image.open('banner.jpg')
 st.image(image, caption='Dadehkav Stock Prediction App')
