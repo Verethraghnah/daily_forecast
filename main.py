@@ -50,7 +50,7 @@ period = n_years
 
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, start_date, end_date, interval='1h')
+    data = yf.download(ticker, start_date, end_date, interval='1m')
     data.reset_index(inplace=True)
     return data
 
@@ -66,8 +66,8 @@ st.write(data.tail())
 
 # Prophet model
 
-df_train = data[['index', 'Close']]
-df_train = df_train.rename(columns={"index": "ds", "Close": "y"})
+df_train = data[['Datetime', 'Close']]
+df_train = df_train.rename(columns={"Datetime": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
 df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
 px.line(df_train, x='ds', y='y')
