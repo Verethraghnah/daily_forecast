@@ -61,11 +61,11 @@ data_load_state.text('Loading data... done!')
 
 st.subheader('Raw data')
 st.write(data.tail())
-
+data.reset_index(inplace=True)
 # Plot raw data
 
 # Prophet model
-data.reset_index(inplace=True)
+
 df_train = data[['index', 'Close']]
 df_train = df_train.rename(columns={"index": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
