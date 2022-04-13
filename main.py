@@ -70,7 +70,7 @@ df_train = data[['index', 'Close']]
 df_train = df_train.rename(columns={"index": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
 df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
-px.line(df, x='ds', y='y')
+px.line(df_train, x='ds', y='y')
 if sidebar_function == "Neural Networks":
     st.write("running the code for Neural Networks..."
              "IT MAY TAKE A WHILE")
