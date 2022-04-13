@@ -63,8 +63,6 @@ st.subheader('Raw data')
 st.write(data.tail())
 
 # Plot raw data
-fig = px.line(data, x='Date', y='Close')
-st.plotly_chart(fig)
 
 # Prophet model
 df_train = data[['Date', 'Close']]
