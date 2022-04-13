@@ -9,4 +9,4 @@ streamlit==1.8.1
 neuralprophet==0.3.2
 pystan==2.19.1.1
 plotly==4.14.3
-fbprophet==0.7.1
+fbprophet==1.0
