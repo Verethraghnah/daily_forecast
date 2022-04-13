@@ -4,22 +4,11 @@ from datetime import date
 import requests
 import numpy as np
 import yfinance as yf
-from prophet import Prophet
-from prophet.plot import plot_plotly, plot_components_plotly
 from plotly import graph_objs as go
-import streamlit as st
 import pandas as pd
 import numpy as np
-from prophet import Prophet
-from prophet.diagnostics import performance_metrics
-from prophet.diagnostics import cross_validation
-from prophet.plot import plot_cross_validation_metric
 import base64
-from prophet.plot import add_changepoints_to_plot
-from prophet.plot import plot_plotly
 import plotly.offline as py
-from prophet.plot import add_changepoints_to_plot
-from prophet.plot import plot_components_plotly
 from PIL import Image
 import datetime as dt
 import plotly.express as px
@@ -27,16 +16,8 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 import neuralprophet
 from PIL import Image
-from prophet import Prophet
-from prophet.diagnostics import performance_metrics
-from prophet.diagnostics import cross_validation
-from prophet.plot import plot_cross_validation_metric
 import base64
-from prophet.plot import add_changepoints_to_plot
-from prophet.plot import plot_plotly
 import plotly.offline as py
-from prophet.plot import add_changepoints_to_plot
-from prophet.plot import plot_components_plotly
 
 image = Image.open('banner.jpg')
 st.image(image, caption='Dadehkav Stock Prediction App')
@@ -120,20 +101,3 @@ if sidebar_function == "Neural Networks":
     st.write(fig_comp)
     fig_param = model.plot_parameters()
     st.pyplot(fig_param)
-
-else:
-    st.write("running the code for fbprophet..."
-             "IT MAY TAKE A WHILE")
-    m = Prophet(seasonality_mode='multiplicative', seasonality_prior_scale=5, daily_seasonality=8,
-                weekly_seasonality=False, yearly_seasonality=False)
-    # m.add_seasonality(name='monthly', period=30.5, fourier_order=5)
-    # m.add_country_holidays(country_name='US')
-    m.fit(df_train)
-    fut = m.make_future_dataframe(periods=period, freq='1min')
-    forecas = m.predict(fut)
-    st.write("Forecast Results")
-    figf = plot_plotly(m, forecas, trend=True, figsize=(700, 600))
-    st.plotly_chart(figf)
-    st.write("Forecast components")
-    figff = plot_components_plotly(m, forecas, figsize=(700, 175))
-    st.plotly_chart(figff)
