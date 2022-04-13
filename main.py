@@ -50,7 +50,7 @@ period = n_years / 24
 
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, start_date, end_date, interval='1min')
+    data = yf.download(ticker, start_date, end_date, interval='1m')
     data.reset_index(inplace=True)
     return data
 
