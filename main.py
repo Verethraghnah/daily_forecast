@@ -65,8 +65,10 @@ st.write(data.tail())
 # Plot raw data
 
 # Prophet model
-df_train = data[['Date', 'Close']]
-df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+df_train = data[['Datetime', 'Close']]
+df_train = df_train.rename(columns={"Datetime": "ds", "Close": "y"})
+df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
+df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
 
 if sidebar_function == "Neural Networks":
     st.write("running the code for Neural Networks..."
