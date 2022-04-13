@@ -36,7 +36,7 @@ else:
 
 st.title("Forcaster")
 
-function_list = ['fbprophet', 'Neural Networks']
+function_list = ['Neural Networks']
 sidebar_function = st.sidebar.selectbox("Choose the forecasting method", function_list)
 crypotocurrencies = (
     'BTC-USD', 'ETH-USD', 'BNB-USD', 'ADA-USD', 'SAND-USD', 'MANA-USD', 'XRP-USD', 'LTC-USD', 'EOS-USD', 'XLM-USD',
@@ -44,13 +44,13 @@ crypotocurrencies = (
 
 selected_stock = st.selectbox('Select dataset for prediction', crypotocurrencies)
 
-n_years = st.slider('Hours of prediction:', 100, 1000)
+n_years = st.slider('Hours of prediction:', 12, 72)
 period = n_years
 
 
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, start_date, end_date, interval='1m')
+    data = yf.download(ticker, start_date, end_date, interval='1h')
     data.reset_index(inplace=True)
     return data
 
@@ -69,12 +69,12 @@ df_train = data[['Datetime', 'Close']]
 df_train = df_train.rename(columns={"Datetime": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
 df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
-
+px.line(df, x='ds', y='y')
 if sidebar_function == "Neural Networks":
     st.write("running the code for Neural Networks..."
              "IT MAY TAKE A WHILE")
     model = neuralprophet.NeuralProphet(growth="linear",
-                                        n_changepoints=14,
+                                        #n_changepoints=14,
                                         # changepoints_range=0.8,
                                         # trend_reg=0,
                                         # trend_reg_threshold=False,
@@ -90,7 +90,7 @@ if sidebar_function == "Neural Networks":
                                         d_hidden=1,
                                         batch_size=36)
     # model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
-    metrics = model.fit(df_train, freq='1min', progress='bar')
+    metrics = model.fit(df_train, freq='H', progress='bar')
     future = model.make_future_dataframe(df_train, periods=period, n_historic_predictions=len(df_train))
     forecast = model.predict(future)
     st.write("Forecast Results")
