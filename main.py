@@ -25,7 +25,7 @@ st.title('Stock Prediction App')
 
 today = dt.date.today()
 
-before = today - dt.timedelta(days=7)
+before = today - dt.timedelta(days=15)
 start_date = st.sidebar.date_input('Start date', before)
 end_date = st.sidebar.date_input('End date', today)
 
@@ -50,7 +50,7 @@ period = n_years
 
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, start_date, end_date, interval='1m')
+    data = yf.download(ticker, start_date, end_date, interval='60m')
     data.reset_index(inplace=True)
     return data
 
@@ -70,7 +70,8 @@ df_train = data[['Datetime', 'Close']]
 df_train = df_train.rename(columns={"Datetime": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
 df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
-px.line(df_train, x='ds', y='y')
+r = px.line(df_train, x='ds', y='y')
+st.write(r)
 if sidebar_function == "Neural Networks":
     st.write("running the code for Neural Networks..."
              "IT MAY TAKE A WHILE")
@@ -80,15 +81,15 @@ if sidebar_function == "Neural Networks":
                                         # trend_reg=0,
                                         # trend_reg_threshold=False,
                                         yearly_seasonality=False,
-                                        weekly_seasonality=False,
+                                        weekly_seasonality='auto',
                                         daily_seasonality=8,
                                         seasonality_mode="multiplicative",
                                         epochs=150,
                                         loss_func="Huber",
                                         normalize="minmax",
                                         impute_missing=True,
-                                        num_hidden_layers=3,
-                                        d_hidden=1,
+                                        num_hidden_layers=2,
+                                        d_hidden=2,
                                         batch_size=36)
     # model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
     metrics = model.fit(df_train, freq='H', progress='bar')
@@ -102,3 +103,6 @@ if sidebar_function == "Neural Networks":
     st.write(fig_comp)
     fig_param = model.plot_parameters()
     st.pyplot(fig_param)
+    st.write('Interactive chart')
+    figu = px.line(forecast, x='ds', y=['yhat1', 'y'])
+    st.write(figu)
