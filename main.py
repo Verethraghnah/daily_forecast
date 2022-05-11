@@ -21,11 +21,11 @@ import plotly.offline as py
 
 image = Image.open('banner.jpg')
 st.image(image, caption='Dadehkav Stock Prediction App')
-st.title('Stock Prediction App 60m Intervals')
+st.title('Stock Prediction App 90m Intervals')
 
 today = dt.date.today()
 
-before = today - dt.timedelta(days=15)
+before = today - dt.timedelta(days=45)
 start_date = st.sidebar.date_input('Start date', before)
 end_date = st.sidebar.date_input('End date', today)
 
