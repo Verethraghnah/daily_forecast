@@ -21,11 +21,11 @@ import plotly.offline as py
 
 image = Image.open('banner.jpg')
 st.image(image, caption='Dadehkav Stock Prediction App')
-st.title('Stock Prediction App 90m Intervals')
+st.title('Stock Prediction App (1H Interval)')
 
 today = dt.date.today()
 
-before = today - dt.timedelta(days=45)
+before = today - dt.timedelta(days=15)
 start_date = st.sidebar.date_input('Start date', before)
 end_date = st.sidebar.date_input('End date', today)
 
@@ -44,13 +44,13 @@ crypotocurrencies = (
 
 selected_stock = st.selectbox('Select dataset for prediction', crypotocurrencies)
 
-n_years = st.slider('Days of prediction:', 7, 90)
-period = n_years * 16
+n_years = st.slider('Hours of prediction:', 12, 72)
+period = n_years * 24
 
 
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, start_date, end_date, interval='90m')
+    data = yf.download(ticker, start_date, end_date, interval='1h')
     data.reset_index(inplace=True)
     return data
 
@@ -62,7 +62,6 @@ data_load_state.text('Loading data... done!')
 st.subheader('Raw data')
 st.write(data.tail())
 
-# Plot raw data
 
 # Prophet model
 
@@ -75,35 +74,22 @@ st.write(r)
 if sidebar_function == "Neural Networks":
     st.write("running the code for Neural Networks..."
              "IT MAY TAKE A WHILE")
-     model = NeuralProphet(
-     growth="discontinuous",  # Determine trend types: 'linear', 'discontinuous', 'off'
-     #changepoints=None, # list of dates that may include change points (None -> automatic )
-     n_changepoints=25,
-     #changepoints_range=0.8,
-     #trend_reg=0,
-     #trend_reg_threshold=False,
-     yearly_seasonality='auto',
-     weekly_seasonality='auto',
-     daily_seasonality='auto',
-     seasonality_mode="multiplicative",
-     #seasonality_reg=1,
-     #n_forecasts=60,
-     #n_lags=60,
-     #ar_reg= 1,
-     num_hidden_layers=2,
-     d_hidden=2,     # Dimension of hidden layers of AR-Net
-     #ar_sparsity=None,  # Sparcity in the AR coefficients
-     #learning_rate=None,
-     epochs=200,
-     loss_func='Huber',
-     collect_metrics= True,
-     normalize="standardize",  # Type of normalization ('minmax', 'standardize', 'soft', 'off')
-     impute_missing=True,
-     #global_normalization=True,
-     #log_level=None, # Determines the logging level of the logger object
-     batch_size=32)
-        
-    # model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
+    model = neuralprophet.NeuralProphet(growth="discontinuous",
+                                        #n_changepoints=14,
+                                        # changepoints_range=0.8,
+                                        # trend_reg=0,
+                                        # trend_reg_threshold=False,
+                                        yearly_seasonality=False,
+                                        weekly_seasonality='auto',
+                                        daily_seasonality=8,
+                                        seasonality_mode="multiplicative",
+                                        epochs=250,
+                                        loss_func="Huber",
+                                        normalize="soft",
+                                        impute_missing=True,
+                                        num_hidden_layers=2,
+                                        d_hidden=2,
+                                        batch_size=16)
     metrics = model.fit(df_train, freq='auto', progress='bar')
     future = model.make_future_dataframe(df_train, periods=period, n_historic_predictions=len(df_train))
     forecast = model.predict(future)
@@ -115,6 +101,5 @@ if sidebar_function == "Neural Networks":
     st.write(fig_comp)
     fig_param = model.plot_parameters()
     st.pyplot(fig_param)
-    st.write('Interactive chart')
-    figu = px.line(forecast, x='ds', y=['yhat1', 'y'])
-    st.write(figu)
+figure = px.line(forecast, x='ds', y=['yhat1', 'y'])
+st.write(figure)
