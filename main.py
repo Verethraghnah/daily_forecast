@@ -84,11 +84,11 @@ if sidebar_function == "Neural Networks":
                                         weekly_seasonality='auto',
                                         daily_seasonality='auto',
                                         seasonality_mode="multiplicative",
-                                        epochs=150,
+                                        epochs=200,
                                         loss_func="Huber",
-                                        normalize="soft",
+                                        normalize="standardize",
                                         impute_missing=True,
-                                        num_hidden_layers=3,
+                                        num_hidden_layers=2,
                                         d_hidden=2,
                                         batch_size=32)
     # model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
