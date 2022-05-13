@@ -75,34 +75,34 @@ st.write(r)
 if sidebar_function == "Neural Networks":
     st.write("running the code for Neural Networks..."
              "IT MAY TAKE A WHILE")
-    model = NeuralProphet(
-    growth="discontinuous",  # Determine trend types: 'linear', 'discontinuous', 'off'
-    #changepoints=None, # list of dates that may include change points (None -> automatic )
-    n_changepoints=25,
-    #changepoints_range=0.8,
-    #trend_reg=0,
-    #trend_reg_threshold=False,
-    yearly_seasonality='auto',
-    weekly_seasonality='auto',
-    daily_seasonality='auto',
-    seasonality_mode="multiplicative",
-    #seasonality_reg=1,
-    #n_forecasts=60,
-    #n_lags=60,
-    #ar_reg= 1,
-    num_hidden_layers=2,
-    d_hidden=2,     # Dimension of hidden layers of AR-Net
-    #ar_sparsity=None,  # Sparcity in the AR coefficients
-    #learning_rate=None,
-    epochs=200,
-    loss_func='Huber',
-    collect_metrics= True,
-    normalize="standardize",  # Type of normalization ('minmax', 'standardize', 'soft', 'off')
-    impute_missing=True,
-    #global_normalization=True,
-    #log_level=None, # Determines the logging level of the logger object
-    batch_size=32
-    )
+     model = NeuralProphet(
+     growth="discontinuous",  # Determine trend types: 'linear', 'discontinuous', 'off'
+     #changepoints=None, # list of dates that may include change points (None -> automatic )
+     n_changepoints=25,
+     #changepoints_range=0.8,
+     #trend_reg=0,
+     #trend_reg_threshold=False,
+     yearly_seasonality='auto',
+     weekly_seasonality='auto',
+     daily_seasonality='auto',
+     seasonality_mode="multiplicative",
+     #seasonality_reg=1,
+     #n_forecasts=60,
+     #n_lags=60,
+     #ar_reg= 1,
+     num_hidden_layers=2,
+     d_hidden=2,     # Dimension of hidden layers of AR-Net
+     #ar_sparsity=None,  # Sparcity in the AR coefficients
+     #learning_rate=None,
+     epochs=200,
+     loss_func='Huber',
+     collect_metrics= True,
+     normalize="standardize",  # Type of normalization ('minmax', 'standardize', 'soft', 'off')
+     impute_missing=True,
+     #global_normalization=True,
+     #log_level=None, # Determines the logging level of the logger object
+     batch_size=32)
+        
     # model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
     metrics = model.fit(df_train, freq='auto', progress='bar')
     future = model.make_future_dataframe(df_train, periods=period, n_historic_predictions=len(df_train))
