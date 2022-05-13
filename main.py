@@ -66,7 +66,7 @@ st.write(data.tail())
 # Prophet model
 
 df_train = data[['index', 'Close']]
-df_train = df_train.rename(columns={"Datetime": "ds", "Close": "y"})
+df_train = df_train.rename(columns={"index": "ds", "Close": "y"})
 df_train['ds'] = pd.to_datetime(df_train['ds'], errors='coerce', utc=True )
 df_train['ds'] = df_train['ds'].dt.strftime('%Y-%m-%d %H:%M')
 r = px.line(df_train, x='ds', y='y')
