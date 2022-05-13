@@ -44,13 +44,13 @@ crypotocurrencies = (
 
 selected_stock = st.selectbox('Select dataset for prediction', crypotocurrencies)
 
-n_years = st.slider('Hours of prediction:', 12, 72)
-period = n_years
+n_years = st.slider('Days of prediction:', 7, 90)
+period = n_years * 16
 
 
 @st.cache
 def load_data(ticker):
-    data = yf.download(ticker, start_date, end_date, interval='60m')
+    data = yf.download(ticker, start_date, end_date, interval='90m')
     data.reset_index(inplace=True)
     return data
 
@@ -82,17 +82,17 @@ if sidebar_function == "Neural Networks":
                                         # trend_reg_threshold=False,
                                         yearly_seasonality=False,
                                         weekly_seasonality='auto',
-                                        daily_seasonality=8,
+                                        daily_seasonality='auto',
                                         seasonality_mode="multiplicative",
                                         epochs=150,
                                         loss_func="Huber",
-                                        normalize="minmax",
+                                        normalize="soft",
                                         impute_missing=True,
-                                        num_hidden_layers=2,
+                                        num_hidden_layers=3,
                                         d_hidden=2,
-                                        batch_size=36)
+                                        batch_size=32)
     # model.add_seasonality(name='monthly', period=30.5, fourier_order=5)
-    metrics = model.fit(df_train, freq='H', progress='bar')
+    metrics = model.fit(df_train, freq='auto', progress='bar')
     future = model.make_future_dataframe(df_train, periods=period, n_historic_predictions=len(df_train))
     forecast = model.predict(future)
     st.write("Forecast Results")
