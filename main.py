@@ -74,18 +74,18 @@ st.write(r)
 if sidebar_function == "Neural Networks":
     st.write("running the code for Neural Networks..."
              "IT MAY TAKE A WHILE")
-    model = neuralprophet.NeuralProphet(growth="discontinuous",
+    model = neuralprophet.NeuralProphet(growth="linear",
                                         #n_changepoints=14,
                                         # changepoints_range=0.8,
                                         # trend_reg=0,
                                         # trend_reg_threshold=False,
                                         yearly_seasonality=False,
                                         weekly_seasonality='auto',
-                                        daily_seasonality=8,
+                                        daily_seasonality='auto',
                                         seasonality_mode="multiplicative",
                                         epochs=250,
                                         loss_func="Huber",
-                                        normalize="soft",
+                                        normalize="standardize",
                                         impute_missing=True,
                                         num_hidden_layers=2,
                                         d_hidden=2,
